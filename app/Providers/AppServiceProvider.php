@@ -25,14 +25,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        //×ó²à²Ëµ¥
-        view()->composer('admin.layout',function($view){
+        // å·¦ä¾§èœå•
+        view()->composer('admin.layout', function($view) {
             $menus = \App\Models\Permission::with([
-                'childs'=>function($query){$query->with('icon');}
-                ,'icon'])->where('parent_id',0)->orderBy('sort','desc')->get();
-            $unreadMessage = \App\Models\Message::where('read',1)->where('accept_uuid',auth()->user()->uuid)->count();
+                'childs' => function($query){$query->with('icon');}
+                ,'icon'])->where('parent_id',0)->orderBy('sort', 'desc')->get();
+            $unreadMessage = \App\Models\Message::where('read', 1)->where('accept_uuid', auth()->user()->uuid)->count();
             $view->with('menus',$menus);
-            $view->with('unreadMessage',$unreadMessage);
+            $view->with('unreadMessage', $unreadMessage);
         });
     }
 }
