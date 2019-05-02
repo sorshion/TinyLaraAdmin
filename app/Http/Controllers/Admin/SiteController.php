@@ -15,8 +15,8 @@ class SiteController extends Controller
      */
     public function index()
     {
-        $config = Site::pluck('value','key');
-        return view('admin.site.index',compact('config'));
+        $config = Site::pluck('value', 'key');
+        return view('admin.site.index', compact('config'));
     }
 
     /**
@@ -32,7 +32,7 @@ class SiteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -43,7 +43,7 @@ class SiteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -54,7 +54,7 @@ class SiteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -65,30 +65,30 @@ class SiteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
-        $data = $request->except(['_token','_method']);
-        if (empty($data)){
-            return back()->withErrors(['status'=>'无数据更新']);
+        $data = $request->except(['_token', '_method']);
+        if (empty($data)) {
+            return back()->withErrors(['status' => '无数据更新']);
         }
         Site::truncate();
-        foreach ($data as $key=>$val){
+        foreach ($data as $key => $val) {
             Site::create([
-                'key' => $key,
+                'key'   => $key,
                 'value' => $val
             ]);
         }
-        return back()->with(['status'=>'更新成功']);
+        return back()->with(['status' => '更新成功']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

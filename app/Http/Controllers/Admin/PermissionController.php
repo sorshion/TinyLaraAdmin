@@ -103,7 +103,7 @@ class PermissionController extends Controller
         if (!$permission) {
             return response()->json(['code' => -1, 'msg' => '权限不存在']);
         }
-        //如果有子权限，则禁止删除
+        // 如果有子权限，则禁止删除
         if (Permission::where('parent_id', $ids[0])->first()) {
             return response()->json(['code' => 2, 'msg' => '存在子权限禁止删除']);
         }
