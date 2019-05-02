@@ -51,7 +51,8 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * 登录过期后的跳转地址
+     * 鐧诲綍杩囨湡鍚庣殑璺宠浆鍦板潃
+     * 
      * @param \Illuminate\Http\Request $request
      * @param AuthenticationException $exception
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
