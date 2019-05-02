@@ -425,7 +425,7 @@
 
                                 <script type="text/html" template>
 
-                                    v1.0.0
+                                    v1.2.1 std
 
                                     <a href="http://fly.layui.com/docs/3/" target="_blank" style="padding-left: 15px;">更新日志</a>
 
@@ -443,7 +443,7 @@
 
                                 <script type="text/html" template>
 
-                                    layui-v2.3.0
+                                    layui-v2.4.5
 
                                 </script>
 
