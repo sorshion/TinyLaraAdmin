@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreatePermissionTables extends Migration
 {
@@ -26,6 +27,8 @@ class CreatePermissionTables extends Migration
             $table->integer('sort')->default(0)->comment('排序');
             $table->timestamps();
         });
+        // 表注释
+        DB::statement("ALTER TABLE {$tableNames['permissions']} comment '权限管理表'");
 
         Schema::create($tableNames['roles'], function (Blueprint $table) {
             $table->increments('id');
@@ -34,6 +37,8 @@ class CreatePermissionTables extends Migration
             $table->string('display_name');
             $table->timestamps();
         });
+        // 表注释
+        DB::statement("ALTER TABLE {$tableNames['roles']} comment '角色表'");
 
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedInteger('permission_id');
@@ -46,6 +51,8 @@ class CreatePermissionTables extends Migration
 
             $table->primary(['permission_id', 'model_id', 'model_type'], 'model_has_permissions_permission_model_type_primary');
         });
+        // 表注释
+        DB::statement("ALTER TABLE {$tableNames['model_has_permissions']} comment '权限模块关联表'");
 
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedInteger('role_id');
@@ -58,6 +65,8 @@ class CreatePermissionTables extends Migration
 
             $table->primary(['role_id', 'model_id', 'model_type']);
         });
+        // 表注释
+        DB::statement("ALTER TABLE {$tableNames['model_has_roles']} comment '角色模块关联表'");
 
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedInteger('permission_id');
@@ -77,6 +86,8 @@ class CreatePermissionTables extends Migration
 
             app('cache')->forget('spatie.permission.cache');
         });
+        // 表注释
+        DB::statement("ALTER TABLE {$tableNames['role_has_permissions']} comment '权限角色关联表'");
     }
 
     /**

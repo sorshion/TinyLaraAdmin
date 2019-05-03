@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
-class CreateTagsTable extends Migration
+class CreateIconsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +14,16 @@ class CreateTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('icons', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',100)->comment('名称');
+            $table->string('unicode')->nullable()->comment('unicode 字符');
+            $table->string('class')->nullable()->comment('类名');
+            $table->string('name')->nullable()->comment('名称');
             $table->integer('sort')->default(0)->comment('排序');
             $table->timestamps();
         });
+        // 表注释
+        DB::statement("ALTER TABLE `icons` comment '图标表'");
     }
 
     /**
@@ -28,6 +33,6 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('icons');
     }
 }

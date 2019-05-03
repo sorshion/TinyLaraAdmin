@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateMessagesTable extends Migration
 {
@@ -23,6 +24,9 @@ class CreateMessagesTable extends Migration
              $table->integer('flag')->comment('消息对应关系：12-系统推送给后台，13-系统推送给前台,22-后台推送给后台，23-后台推送给前台，32-前台推送给后台，33-前台推送给前台，');
             $table->timestamps();
         });
+
+        // 表注释
+        DB::statement("ALTER TABLE `messages` comment '消息表'");
     }
 
     /**
