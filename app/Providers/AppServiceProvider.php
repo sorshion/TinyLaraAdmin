@@ -30,9 +30,7 @@ class AppServiceProvider extends ServiceProvider
             $menus = \App\Models\Permission::with([
                 'childs' => function($query){$query->with('icon');}
                 ,'icon'])->where('parent_id',0)->orderBy('sort', 'desc')->get();
-            $unreadMessage = \App\Models\Message::where('read', 1)->where('accept_uuid', auth()->user()->uuid)->count();
             $view->with('menus',$menus);
-            $view->with('unreadMessage', $unreadMessage);
         });
     }
 }

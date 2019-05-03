@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>layuiAdmin std - 通用后台管理模板系统（iframe标准版）</title>
+    <title>TinyLaraAdmin - 通用后台管理模板系统（iframe标准版）</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -32,20 +32,8 @@
                         <i class="layui-icon layui-icon-refresh-3"></i>
                     </a>
                 </li>
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
-                </li>
             </ul>
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-                <li class="layui-nav-item" lay-unselect>
-                    <a lay-href="{{route('admin.message.mine')}}" layadmin-event="message" lay-text="消息中心">
-                        <i class="layui-icon layui-icon-notice"></i>
-                        <!-- 如果有新消息，则显示小圆点 -->
-                        @if($unreadMessage)
-                        <span class="layui-badge-dot"></span>
-                        @endif
-                    </a>
-                </li>
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
                     <a href="javascript:;" layadmin-event="theme">
                         <i class="layui-icon layui-icon-theme"></i>
@@ -63,7 +51,7 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;">
-                        <cite>贤心</cite>
+                        <cite>{{Auth::user()->name}}</cite>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a lay-href="set/user/info.html">基本资料</a></dd>
