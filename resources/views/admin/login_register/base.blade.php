@@ -55,8 +55,10 @@
         @if(session('success'))
         layer.msg("{{session('success')}}",{icon:6});
         @endif
-
     })
+    if (window.top.location.href != location.href) {
+        window.parent.location.reload(true);
+    }
 </script>
 </body>
 </html>
