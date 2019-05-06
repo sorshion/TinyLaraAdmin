@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateDistrictTable extends Migration
 {
@@ -23,6 +24,8 @@ class CreateDistrictTable extends Migration
             $table->integer('sort')->default(0)->comment('排序');
             $table->timestamps();
         });
+        // 表注释
+        DB::statement("ALTER TABLE `districts` comment '省市区表'");
     }
 
     /**
@@ -32,6 +35,6 @@ class CreateDistrictTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('districts');
+        Schema::dropIfExists('district');
     }
 }
