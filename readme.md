@@ -1,5 +1,3 @@
-`less版本只包含基础权限`
-
 # 基于laravel5.8 + layuiadmin 构建
 #### 环境
 * PHP >= 7.2
