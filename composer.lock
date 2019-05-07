@@ -1044,9 +1044,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/opis/closure/zipball/09b4389715a7eec100176ea58286649181753508",
                 "reference": "09b4389715a7eec100176ea58286649181753508",
-<<<<<<< HEAD
-                "shasum": ""
-=======
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1054,7 +1051,6 @@
                         "preferred": true
                     }
                 ]
->>>>>>> 94b0e52a360492e825aa3ac4752ce861ce2de2cc
             },
             "require": {
                 "php": "^5.4 || ^7.0"
@@ -4389,9 +4385,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/f2a2c8e1c97c11ace607a7a667d73d47c19fe404",
                 "reference": "f2a2c8e1c97c11ace607a7a667d73d47c19fe404",
-<<<<<<< HEAD
-                "shasum": ""
-=======
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4399,7 +4392,6 @@
                         "preferred": true
                     }
                 ]
->>>>>>> 94b0e52a360492e825aa3ac4752ce861ce2de2cc
             },
             "require": {
                 "php": "^7.1"

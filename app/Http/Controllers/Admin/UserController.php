@@ -81,11 +81,15 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $user = User::findOrFail($id);
+        
         $data = $request->except('password');
         if ($request->get('password')) {
             $data['password'] = bcrypt($request->get('password'));
         }
         if ($user->update($data)) {
+            if ($request->get('password')) {
+                return redirect()->to(route('admin.logout'));
+            }
             return redirect()->to(route('admin.user'))->with(['status' => '更新用户成功']);
         }
         return redirect()->to(route('admin.user'))->withErrors('系统错误');
