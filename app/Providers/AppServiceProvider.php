@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // 兼容mysql低版本
         Schema::defaultStringLength(191);
         // 左侧菜单
         view()->composer('admin.layout', function($view) {
