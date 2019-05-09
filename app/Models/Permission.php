@@ -15,4 +15,17 @@ class Permission extends \Spatie\Permission\Models\Permission
     {
         return $this->hasMany('App\Models\Permission', 'parent_id', 'id');
     }
+
+    // 获取权限表属性
+    public function getAllCacheAttributes(): array
+    {
+        $cachePermissions = self::getPermissions();
+
+        $attributesArr = [];
+        foreach ($cachePermissions as $per) {
+            $attributesArr[] = $per->attributes;
+        }
+
+        return $attributesArr;
+    }
 }

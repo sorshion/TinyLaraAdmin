@@ -80,7 +80,7 @@ class PermissionController extends Controller
     public function update(PermissionUpdateRequest $request, $id)
     {
         $permission = Permission::findOrFail($id);
-        $data       = $request->all();
+        $data       = array_filter($request->all());
         if ($permission->update($data)) {
             return redirect()->to(route('admin.permission'))->with(['status' => '更新权限成功']);
         }

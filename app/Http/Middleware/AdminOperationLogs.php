@@ -3,10 +3,14 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\OperationLogs;
+use App\Models\Permission;
 
+/**
+ * 全局的用户操作日志中间件
+ */
 class AdminOperationLogs
 {
     /**
@@ -24,7 +28,13 @@ class AdminOperationLogs
             $user_id = (int) Auth::id();
             $user_name = Auth::user()->name;
         }
+
         if ('GET' != $request->method()) {
+            $router_as = $request->route()->action['as'];
+
+            $permisson = new Permission();
+            $attributesArr = $permisson->getAllCacheAttributes();
+            // TODO NEXT TIME
             $input = $request->all();
             $log = new OperationLogs();
             $log->user_id = $user_id;
