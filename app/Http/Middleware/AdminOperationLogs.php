@@ -25,15 +25,29 @@ class AdminOperationLogs
         $user_id = 0;
         $user_name = '';
         if (Auth::check()) {
-            $user_id = (int) Auth::id();
+            $user_id = (int)Auth::id();
             $user_name = Auth::user()->name;
         }
 
         if ('GET' != $request->method()) {
             $router_as = $request->route()->action['as'];
+dump($request->route());exit;
+            $parentName = '';
+            $subName    = '';
+            $currentName = '';
+            if (!empty($router_as)) {
+                $permisson = new Permission();
+                $attributesArr = $permisson->getAllCacheAttributes();
+                $currentName = $this->getCurrentOperate($attributesArr, $router_as);
+//                echo $router_as;exit;
+//                dump($currentName) ;exit;
+//                $parentName = $this->getParentName($attributesArr, $router_as);
+//                $subName = $this->getSubName($attributesArr, $router_as);
 
-            $permisson = new Permission();
-            $attributesArr = $permisson->getAllCacheAttributes();
+            }
+
+//            echo $currentName;exit;
+
             // TODO NEXT TIME
             $input = $request->all();
             $log = new OperationLogs();
@@ -47,4 +61,27 @@ class AdminOperationLogs
         }
         return $next($request);
     }
+
+    private function getParentName(array $operateArr, string $needle): string
+    {
+
+    }
+
+    private function getSubName(array $operateArr, string $needle): string
+    {
+
+    }
+
+    private function getCurrentOperate(array $operateArr, string $needle): string
+    {
+        foreach ($operateArr as $op) {
+            $op1 = array_flip($op);
+            print_r($op1);
+            if (array_key_exists($needle, array_flip($op))) {
+                return $op;
+            }
+        }
+        return '';
+    }
+
 }
