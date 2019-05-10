@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
+use Faker\Provider\Uuid;
 
 class UserTableSeeder extends Seeder
 {
@@ -12,27 +17,27 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         // 清空表
-        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        \Illuminate\Support\Facades\DB::table('model_has_permissions')->truncate();
-        \Illuminate\Support\Facades\DB::table('model_has_roles')->truncate();
-        \Illuminate\Support\Facades\DB::table('role_has_permissions')->truncate();
-        \Illuminate\Support\Facades\DB::table('users')->truncate();
-        \Illuminate\Support\Facades\DB::table('roles')->truncate();
-        \Illuminate\Support\Facades\DB::table('permissions')->truncate();
-        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('model_has_permissions')->truncate();
+        DB::table('model_has_roles')->truncate();
+        DB::table('role_has_permissions')->truncate();
+        DB::table('users')->truncate();
+        DB::table('roles')->truncate();
+        DB::table('permissions')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // 用户
-        $user = \App\Models\User::create([
+        $user = User::create([
             'username'  => 'root',
             'phone'     => '18908221080',
             'name'      => '超级管理员',
             'email'     => 'sorshion@gmail.com',
             'password'  => bcrypt('123456'),
-            'uuid'      => \Faker\Provider\Uuid::uuid(),
+            'uuid'      => Uuid::uuid(),
         ]);
 
         // 角色
-        $role = \App\Models\Role::create([
+        $role = Role::create([
             'name' => 'root',
             'display_name' => '超级管理员',
         ]);
@@ -87,7 +92,7 @@ class UserTableSeeder extends Seeder
 
         foreach ($permissions as $pem1) {
             // 生成一级权限
-            $p1 = \App\Models\Permission::create([
+            $p1 = Permission::create([
                 'name' => $pem1['name'],
                 'display_name' => $pem1['display_name'],
                 'route' => $pem1['route'] ?? '',
@@ -100,7 +105,7 @@ class UserTableSeeder extends Seeder
             if (isset($pem1['child'])) {
                 foreach ($pem1['child'] as $pem2) {
                     // 生成二级权限
-                    $p2 = \App\Models\Permission::create([
+                    $p2 = Permission::create([
                         'name' => $pem2['name'],
                         'display_name' => $pem2['display_name'],
                         'parent_id' => $p1->id,
@@ -114,7 +119,7 @@ class UserTableSeeder extends Seeder
                     if (isset($pem2['child'])) {
                         foreach ($pem2['child'] as $pem3) {
                             // 生成三级权限
-                            $p3 = \App\Models\Permission::create([
+                            $p3 = Permission::create([
                                 'name' => $pem3['name'],
                                 'display_name' => $pem3['display_name'],
                                 'parent_id' => $p2->id,
@@ -127,7 +132,6 @@ class UserTableSeeder extends Seeder
                             $user->givePermissionTo($p3);
                         }
                     }
-
                 }
             }
         }
@@ -140,7 +144,7 @@ class UserTableSeeder extends Seeder
             ['name' => 'admin', 'display_name' => '管理员'],
         ];
         foreach ($roles as $role) {
-            \App\Models\Role::create($role);
+            Role::create($role);
         }
     }
 }
