@@ -54,8 +54,8 @@ class UserTableSeeder extends Seeder
                             ['name' => 'system.user.create', 'display_name' => '添加用户', 'route' => 'admin.user.store'],
                             ['name' => 'system.user.edit', 'display_name' => '编辑用户', 'route' => 'admin.user.update'],
                             ['name' => 'system.user.destroy', 'display_name' => '删除用户', 'route' => 'admin.user.destroy'],
-                            ['name' => 'system.user.role', 'display_name' => '分配角色', 'route' => 'admin.user.role'],
-                            ['name' => 'system.user.permission', 'display_name' => '分配权限', 'route' => 'admin.user.permission'],
+                            ['name' => 'system.user.role', 'display_name' => '分配角色', 'route' => 'admin.user.assignRole'],
+                            ['name' => 'system.user.permission', 'display_name' => '分配权限', 'route' => 'admin.user.assignPermission'],
                         ]
                     ],
                     [
@@ -67,7 +67,7 @@ class UserTableSeeder extends Seeder
                             ['name' => 'system.role.create', 'display_name' => '添加角色', 'route' => 'admin.role.store'],
                             ['name' => 'system.role.edit', 'display_name' => '编辑角色', 'route' => 'admin.role.update'],
                             ['name' => 'system.role.destroy', 'display_name' => '删除角色', 'route' => 'admin.role.destroy'],
-                            ['name' => 'system.role.permission', 'display_name' => '分配权限', 'route' => 'admin.role.permission'],
+                            ['name' => 'system.role.permission', 'display_name' => '分配权限', 'route' => 'admin.role.assignPermission'],
                         ]
                     ],
                     [
