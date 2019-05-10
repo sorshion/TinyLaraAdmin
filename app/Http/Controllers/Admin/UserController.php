@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -81,13 +82,14 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $user = User::findOrFail($id);
-        
+
         $data = $request->except('password');
+        dump($user);exit;
         if ($request->get('password')) {
             $data['password'] = bcrypt($request->get('password'));
         }
         if ($user->update($data)) {
-            if ($request->get('password')) {
+            if ($request->get('password') && Auth::user()->id == $id) {
                 return redirect()->to(route('admin.logout'));
             }
             return redirect()->to(route('admin.user'))->with(['status' => '更新用户成功']);
