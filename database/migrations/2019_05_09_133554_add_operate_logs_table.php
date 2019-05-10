@@ -18,6 +18,9 @@ class AddOperateLogsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('user_name');
+            $table->string('menu_name');
+            $table->string('sub_menu_name');
+            $table->string('operate_name');
             $table->string('path');
             $table->string('method', 10)->nullable()->comment('请求方式');
             $table->string('ip');

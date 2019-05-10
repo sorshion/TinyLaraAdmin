@@ -18,7 +18,7 @@
             <table id="dataTable" lay-filter="dataTable"></table>
             <script type="text/html" id="options">
                 <div class="layui-btn-group">
-                    @can('system.user.create')
+                    @can('system.user.edit')
                     <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
                     @endcan
                     @can('system.user.role')
@@ -112,6 +112,3 @@
     </script>
     @endcan
 @endsection
-
-
-

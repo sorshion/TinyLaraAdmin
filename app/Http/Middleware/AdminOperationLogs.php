@@ -31,57 +31,81 @@ class AdminOperationLogs
 
         if ('GET' != $request->method()) {
             $router_as = $request->route()->action['as'];
-dump($request->route());exit;
-            $parentName = '';
-            $subName    = '';
-            $currentName = '';
-            if (!empty($router_as)) {
-                $permisson = new Permission();
-                $attributesArr = $permisson->getAllCacheAttributes();
-                $currentName = $this->getCurrentOperate($attributesArr, $router_as);
-//                echo $router_as;exit;
-//                dump($currentName) ;exit;
-//                $parentName = $this->getParentName($attributesArr, $router_as);
-//                $subName = $this->getSubName($attributesArr, $router_as);
-
+            if (empty($router_as) || count(explode(".", $router_as)) != 3) {
+                return $next($request);
             }
+            $permisson = new Permission();
+            $attributesArr = $permisson->getAllCacheAttributes();
+            $allName       = $this->getAllName($attributesArr, $router_as);
+            $operate_name  = $allName['operateName'];
+            $sub_menu_name = $allName['subMenuName'];
+            $menu_name     = $allName['menuName'];
 
-//            echo $currentName;exit;
-
-            // TODO NEXT TIME
+            // record operate log
             $input = $request->all();
             $log = new OperationLogs();
-            $log->user_id = $user_id;
-            $log->user_name = $user_name;
-            $log->path  = $request->path();
-            $log->method = $request->method();
-            $log->ip = $request->ip();
-            $log->input = json_encode($input, JSON_UNESCAPED_UNICODE);
+            $log->user_id       = $user_id;
+            $log->user_name     = $user_name;
+            $log->menu_name     = $menu_name;
+            $log->sub_menu_name = $sub_menu_name;
+            $log->operate_name  = $operate_name;
+            $log->path          = $request->path();
+            $log->method        = $request->method();
+            $log->ip            = $request->ip();
+            $log->input         = $this->formatInput($input);
             $log->save();
         }
         return $next($request);
     }
 
-    private function getParentName(array $operateArr, string $needle): string
+    private function getAllName(array $operateArr, string $needle): array
     {
+        $return = [
+            'menuName' => '',
+            'subMenuName'    => '',
+            'operateName' => '',
+        ];
 
-    }
-
-    private function getSubName(array $operateArr, string $needle): string
-    {
-
-    }
-
-    private function getCurrentOperate(array $operateArr, string $needle): string
-    {
+        $parent_id = 0;
         foreach ($operateArr as $op) {
-            $op1 = array_flip($op);
-            print_r($op1);
             if (array_key_exists($needle, array_flip($op))) {
-                return $op;
+               $parent_id = $op['parent_id'];
+               $return['operateName'] = $op['display_name'];
+               break;
             }
         }
-        return '';
+
+        if ($parent_id) {
+            foreach ($operateArr as $op) {
+                if ($op['id'] == $parent_id) {
+                    $parent_id = $op['parent_id'];
+                    $return['subMenuName'] = $op['display_name'];
+                    break;
+                }
+            }
+        }
+        if ($parent_id) {
+            foreach ($operateArr as $op) {
+                if ($op['id'] == $parent_id) {
+                    $return['menuName'] = $op['display_name'];
+                    break;
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    private function formatInput(array $input)
+    {
+        $tmp = [];
+        foreach ($input as $key => $in) {
+            if (\substr($key, 0, 1) != '_') {
+                    $tmp[$key] = $in;
+            }
+        }
+
+        return json_encode($tmp, JSON_UNESCAPED_UNICODE);
     }
 
 }
