@@ -53,7 +53,12 @@ class AdminOperationLogs
             $log->method        = $request->method();
             $log->ip            = $request->ip();
             $log->input         = $this->formatInput($input);
-            $log->save();
+            try {
+                $log->save();
+            } catch (\Exception $exception) {
+                // pass
+            }
+
         }
         return $next($request);
     }
