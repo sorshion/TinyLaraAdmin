@@ -84,4 +84,17 @@ Route::namespace('Admin')->prefix('admin')->middleware(['auth', 'permission:syst
         // 删除
         Route::delete('destroy', 'PermissionController@destroy')->name('admin.permission.destroy')->middleware('permission:system.permission.destroy');
     });
+
+    // 操作日志
+    Route::prefix('log')->middleware(['permission:system.log'])->group(function () {
+        Route::get('index', 'LogController@index')->name('admin.log');
+        // 添加
+        Route::get('create', 'LogController@create')->name('admin.log.create')->middleware('permission:system.log.create');
+        Route::post('store', 'LogController@store')->name('admin.log.store')->middleware('permission:system.log.create');
+        // 编辑
+        Route::get('{id}/edit', 'LogController@edit')->name('admin.log.edit')->middleware('permission:system.log.edit');
+        Route::put('{id}/update', 'LogController@update')->name('admin.log.update')->middleware('permission:system.log.edit');
+        // 删除
+        Route::delete('destroy', 'LogController@destroy')->name('admin.log.destroy')->middleware('permission:system.log.destroy');
+    });
 });

@@ -5,13 +5,13 @@ namespace App\Http\Middleware;
 use Closure;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\OperationLogs;
+use App\Models\OperationLog;
 use App\Models\Permission;
 
 /**
  * 全局的用户操作日志中间件
  */
-class AdminOperationLogs
+class OperationLogs
 {
     /**
      * Handle an incoming request.
@@ -43,7 +43,7 @@ class AdminOperationLogs
 
             // record operate log
             $input = $request->all();
-            $log = new OperationLogs();
+            $log = new OperationLog();
             $log->user_id       = $user_id;
             $log->user_name     = $user_name;
             $log->menu_name     = $menu_name;
