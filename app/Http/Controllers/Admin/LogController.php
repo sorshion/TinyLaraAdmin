@@ -25,8 +25,7 @@ class LogController extends Controller
      */
     public function create()
     {
-        $permissions = $this->tree();
-        return view('admin.permission.create', compact('permissions'));
+        return view('admin.log.create', compact('permissions'));
     }
 
     /**
@@ -111,4 +110,46 @@ class LogController extends Controller
         }
         return response()->json(['code' => 1, 'msg' => '删除失败']);
     }
+
+     /**
+     * 数据表格接口
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
+    public function data(Request $request)
+    {
+        $query = new OperationLog();
+
+        // 查询
+        $menu_name = $request->get('menu_name');
+        if (!empty($menu_name)) {
+            $query = $query->where('menu_name', $menu_name);
+        }
+        $sub_menu_name = $request->get('sub_menu_name');
+        if (!empty($sub_menu_name)) {
+            $query = $query->where('sub_menu_name', $sub_menu_name);
+        }
+        $user_name = $request->get('user_name');
+        if (!empty($user_name)) {
+            $query = $query->where('user_name', $user_name);
+        }
+        // 排序
+        $field = $request->get('field');
+        if (empty($field)) {
+            $query = $query->orderby('id', 'desc');
+        } else {
+            $query = $query->orderby($field, $request->get('order'));
+        }
+        $res  = $query->paginate($request->get('limit', 30))->toArray();
+        $data = [
+            'code'  => 0,
+            'msg'   => '正在请求中...',
+            'count' => $res['total'],
+            'data'  => $res['data']
+        ];
+        return response()->json($data);
+    }
+
 }
