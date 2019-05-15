@@ -48,7 +48,7 @@
             // 用户表格初始化
             var dataTable = table.render({
                 elem: '#dataTable'
-                ,id: 'logReload'
+                ,id: 'dataTable'
                 ,toolbar: true
                 ,url: "{{ route('admin.user.data') }}" //数据接口
                 ,page: true //开启分页
@@ -91,6 +91,7 @@
 
             // 监听排序
             table.on('sort(dataTable)', function(obj) {
+                console.log(obj);
                 table.reload('dataTable', {
                     initSort: obj
                     ,where: {
@@ -106,7 +107,10 @@
                     var sub_menu_name = $('input[name=sub_menu_name]');
                     var user_name = $('input[name=user_name]');
                     // 执行重载
-                    table.reload('logReload', {
+                    table.reload('dataTable', {
+                        page: {
+                            curr: 1, // 重新从第 1 页开始
+                        },
                         where: {
                             menu_name: menu_name.val(),
                             sub_menu_name: sub_menu_name.val(),
