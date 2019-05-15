@@ -86,6 +86,17 @@ class UserTableSeeder extends Seeder
                             ['name' => 'system.permission.destroy', 'display_name' => '删除权限', 'route' => 'admin.permission.destroy'],
                         ]
                     ],
+                    [
+                        'name' => 'system.log',
+                        'display_name' => '操作日志',
+                        'route' => 'admin.log',
+                        'icon_id' => '12',
+                        'child' => [
+                            ['name' => 'system.log.create', 'display_name' => '添加日志', 'route' => 'admin.log.store'],
+                            ['name' => 'system.log.edit', 'display_name' => '编辑日志', 'route' => 'admin.log.update'],
+                            ['name' => 'system.log.destroy', 'display_name' => '删除日志', 'route' => 'admin.log.destroy'],
+                        ]
+                    ],
                 ]
             ],
         ];

@@ -97,7 +97,7 @@
                 if (ids.length>0){
                     layer.confirm('确认删除吗？', function(index){
                         $.post("{{ route('admin.user.destroy') }}",{_method:'delete',ids:ids},function (result) {
-                            if (result.code==0){
+                            if (result.code == 0){
                                 dataTable.reload()
                             }
                             layer.close(index);

@@ -43,7 +43,6 @@
     <script>
         layui.use(['layer','table','form'], function() {
             var layer = layui.layer;
-            var form  = layui.form;
             var table = layui.table;
 
             // 用户表格初始化
@@ -69,22 +68,13 @@
             });
 
             // 监听工具条
-            table.on('tool(dataTable)', function (obj) {
-                console.log(obj);
+            table.on('tool(dataTable)', function(obj) {
                 var data = obj.data;      // 获得当前行数据
                 var layEvent = obj.event; // 获得 lay-event 对应的值
                 if (layEvent === 'del') {
                     delRows([data.id]);
                 } else if (layEvent === 'edit') {
-                    layer.open({
-                        type: 2
-                        ,title: '编 辑 【id:'+data.id+'】'
-                        ,content: '/admin/log/' + data.id + '/edit'
-                        ,area: ['390px', '560px']
-                        ,shade: 0
-                        ,maxmin: true
-                        ,scrollbar: false
-                    });
+                    editRow(data.id);
                 }
             });
 
@@ -105,15 +95,7 @@
                 var data = checkStatus.data; // 获取选中的数据
                 switch (obj.event) {
                     case 'add':
-                        layer.open({
-                            type: 2
-                            ,title: '创建(demo)'
-                            ,content: "{{route('admin.log.create')}}"
-                            ,area: ['500px', '400px']
-                            ,shade: 0
-                            ,maxmin: true
-                            ,scrollbar: false
-                        });
+                        createRow();
                         break;
                     case 'update':
                         if (data.length === 0) {
@@ -121,7 +103,7 @@
                         } else if (data.length > 1) {
                             layer.msg('只能同时编辑一个');
                         } else {
-                            layer.alert('编辑 [id]：' + checkStatus.data[0].id);
+                            editRow(checkStatus.data[0].id);
                         }
                         break;
                     case 'delete':
@@ -131,23 +113,20 @@
                             delRows(getIds(data));
                         }
                         break;
-                };
+                }
             });
 
             var $ = layui.$, active = {
                 reload: function() {
-                    var menu_name = $('input[name=menu_name]');
-                    var sub_menu_name = $('input[name=sub_menu_name]');
-                    var user_name = $('input[name=user_name]');
                     // 执行重载
                     table.reload('dataTable', {
                         page: {
                             curr: 1, // 重新从第 1 页开始
                         },
                         where: {
-                            menu_name: menu_name.val(),
-                            sub_menu_name: sub_menu_name.val(),
-                            user_name: user_name.val(),
+                            menu_name: $('input[name=menu_name]').val(),
+                            sub_menu_name: $('input[name=sub_menu_name]').val(),
+                            user_name: $('input[name=user_name]').val(),
                         }
                     });
                 }
@@ -158,6 +137,18 @@
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
             });
+
+            function createRow() {
+                layer.open({
+                    type: 2
+                    ,title: '创建(demo)'
+                    ,content: "{{route('admin.log.create')}}"
+                    ,area: ['500px', '400px']
+                    ,shade: 0
+                    ,maxmin: true
+                    ,scrollbar: false
+                });
+            }
 
             function delRows(ids) {
                 layer.confirm('确认删除吗？', function (index) {
@@ -171,6 +162,18 @@
                         layer.close(index);
                         layer.msg(result.msg, {icon: 6})
                     });
+                });
+            }
+
+            function editRow(id) {
+                layer.open({
+                    type: 2
+                    ,title: '编 辑 【id:'+ id +'】(demo)'
+                    ,content: '/admin/log/' + id + '/edit'
+                    ,area: ['500px', '400px']
+                    ,shade: 0
+                    ,maxmin: true
+                    ,scrollbar: false
                 });
             }
 
