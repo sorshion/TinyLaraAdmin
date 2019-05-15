@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\OperationLog;
+use Illuminate\Support\Facades\Auth;
 
 class LogController extends Controller
 {
@@ -25,7 +26,7 @@ class LogController extends Controller
      */
     public function create()
     {
-        return view('admin.log.create', compact('permissions'));
+        return view('admin.log.create');
     }
 
     /**
@@ -34,13 +35,20 @@ class LogController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PermissionCreateRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
+        $data = $request->only(['user_name', 'menu_name', 'sub_menu_name', 'input']);
+        $data['method'] = $request->method();
+        $data['path']   = $request->path();
+        $data['ip']     = $request->ip();
+        $data['user_id'] = Auth::id();
+        $data['operate_name'] = '新增操作日志';
         if (OperationLog::create($data)) {
-            return redirect()->to(route('admin.permission'))->with(['status' => '添加成功']);
+            return response()->json(['code' => 0,'msg' => '新增成功']);
+            //return redirect()->to(route('admin.log'))->with(['status' => '添加成功']);
         }
-        return redirect()->to(route('admin.permission'))->withErrors('系统错误');
+        return response()->json(['code' => 1,'msg' => '新增失败']);
+        //return redirect()->to(route('admin.log'))->withErrors('系统错误');
     }
 
     /**
@@ -62,9 +70,9 @@ class LogController extends Controller
      */
     public function edit($id)
     {
-        $permission  = OperationLog::findOrFail($id);
-        $permissions = $this->tree();
-        return view('admin.permission.edit', compact('permission', 'permissions'));
+        $model  = OperationLog::findOrFail($id);
+
+        return view('admin.log.edit', $model->query()->toArray());
     }
 
     /**
@@ -74,75 +82,62 @@ class LogController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PermissionUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $permission = OperationLog::findOrFail($id);
-        $data       = array_filter($request->all());
-        if ($permission->update($data)) {
-            return redirect()->to(route('admin.permission'))->with(['status' => '更新权限成功']);
+        $model = OperationLog::findOrFail($id);
+        $data = $request->all();
+        if ($model->update($data)) {
+            return redirect()->to(route('admin.log'))->with(['status' => '更新权限成功']);
         }
-        return redirect()->to(route('admin.permission'))->withErrors('系统错误');
+        return redirect()->to(route('admin.log'))->withErrors('系统错误');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 删除数据
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request)
     {
         $ids = $request->get('ids');
         if (empty($ids)) {
-            return response()->json(['code' => 1, 'msg' => '请选择删除项']);
+            return response()->json(['code' => 1, 'msg'=>'请选择删除项']);
         }
-        $permission = OperationLog::find($ids[0]);
-        if (!$permission) {
-            return response()->json(['code' => -1, 'msg' => '权限不存在']);
-        }
-        // 如果有子权限，则禁止删除
-        if (OperationLog::where('parent_id', $ids[0])->first()) {
-            return response()->json(['code' => 2, 'msg' => '存在子权限禁止删除']);
-        }
-
-        if ($permission->delete()) {
-            return response()->json(['code' => 0, 'msg' => '删除成功']);
+        if (OperationLog::destroy($ids)) {
+            return response()->json(['code' => 0,'msg' => '删除成功']);
         }
         return response()->json(['code' => 1, 'msg' => '删除失败']);
     }
 
      /**
-     * 数据表格接口
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     *
-     */
+      * 数据表格接口
+      *
+      * @param Request $request
+      * @return \Illuminate\Http\JsonResponse
+      */
     public function data(Request $request)
     {
-        $query = new OperationLog();
+        $model = OperationLog::query();
 
         // 查询
-        $menu_name = $request->get('menu_name');
-        if (!empty($menu_name)) {
-            $query = $query->where('menu_name', $menu_name);
+        if ($request->get('menu_name')) {
+            $model->where('menu_name', $request->get('menu_name'));
         }
-        $sub_menu_name = $request->get('sub_menu_name');
-        if (!empty($sub_menu_name)) {
-            $query = $query->where('sub_menu_name', $sub_menu_name);
+        if ($request->get('sub_menu_name')) {
+            $model->where('sub_menu_name', $request->get('sub_menu_name'));
         }
-        $user_name = $request->get('user_name');
-        if (!empty($user_name)) {
-            $query = $query->where('user_name', $user_name);
+        if ($request->get('user_name')) {
+            $model->where('user_name', $request->get('user_name'));
         }
         // 排序
         $field = $request->get('field');
         if (empty($field)) {
-            $query = $query->orderby('id', 'desc');
+            $model->orderby('id', 'desc');
         } else {
-            $query = $query->orderby($field, $request->get('order'));
+            $model->orderby($field, $request->get('order'));
         }
-        $res  = $query->paginate($request->get('limit', 30))->toArray();
+        $res  = $model->paginate($request->get('limit', 30))->toArray();
         $data = [
             'code'  => 0,
             'msg'   => '正在请求中...',
