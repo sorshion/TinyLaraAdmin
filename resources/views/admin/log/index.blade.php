@@ -20,7 +20,9 @@
                     <input class="layui-input" name="sub_menu_name"  autocomplete="off" placeholder="子菜单">
                 </div>
 
-                <button class="layui-btn" data-type="reload">搜索</button>
+                <button class="layui-btn search-btn" data-type="reload">搜索</button>
+
+                <button class="layui-btn layui-btn-warm export-btn">下载</button>
             </div>
         </div>
 
@@ -51,7 +53,8 @@
                 ,id: 'dataTable'
                 ,toolbar: 'default'
                 ,totalRow: true //开启合计行
-                ,url: "{{ route('admin.user.data') }}" //数据接口
+                ,defaultToolbar: ['filter', 'print']
+                ,url: "{{ route('admin.log.data') }}" //数据接口
                 ,page: true //开启分页
                 ,cols: [[ //表头
                     {checkbox: true, fixed: true}
@@ -88,6 +91,7 @@
                     }
                 });
             });
+
 
             // 监听头工具栏事件
             table.on('toolbar(dataTable)', function (obj) {
@@ -133,9 +137,28 @@
             };
 
             // 触发搜索
-            $('.logSearch .layui-btn').on('click', function() {
+            $('.logSearch .search-btn').on('click', function() {
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
+            });
+
+            // 触发下载
+            $('.logSearch .export-btn').on('click', function() {
+                $.ajax({
+                    type: 'get',
+                    url: "{{route('admin.log.data')}}",
+                    data: {
+                        menu_name: $('input[name=menu_name]').val(),
+                        sub_menu_name: $('input[name=sub_menu_name]').val(),
+                        user_name: $('input[name=user_name]').val(),
+                    },
+                    success: function (res) {
+                        table.exportFile(, res.data, 'xls');//
+                    },
+                    error: function() {
+                        layer.msg('导出失败');
+                    }
+                });
             });
 
             function createRow() {

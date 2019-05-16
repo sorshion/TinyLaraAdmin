@@ -89,7 +89,7 @@ Route::namespace('Admin')->prefix('admin')->middleware(['auth', 'permission:syst
     Route::prefix('log')->middleware(['permission:system.log'])->group(function () {
         Route::get('index', 'LogController@index')->name('admin.log');
         // 数据表格接口
-        Route::get('data', 'LogController@data')->name('admin.user.data')->middleware('permission:system.log|system.log');
+        Route::get('data', 'LogController@data')->name('admin.log.data')->middleware('permission:system.log|system.log');
         // 添加
         Route::get('create', 'LogController@create')->name('admin.log.create')->middleware('permission:system.log.create');
         Route::post('store', 'LogController@store')->name('admin.log.store')->middleware('permission:system.log.create');
