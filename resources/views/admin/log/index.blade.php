@@ -22,7 +22,7 @@
 
                 <button class="layui-btn search-btn" data-type="reload">搜索</button>
 
-                <button class="layui-btn layui-btn-warm export-btn">下载</button>
+                <button class="layui-btn layui-btn-warm export-btn">下载(有数据中json字串不要使用)</button>
             </div>
         </div>
 
@@ -153,7 +153,7 @@
                         user_name: $('input[name=user_name]').val(),
                     },
                     success: function (res) {
-                        table.exportFile(, res.data, 'xls');//
+                        table.exportFile(dataTable.config.id, res.data, 'xls');
                     },
                     error: function() {
                         layer.msg('导出失败');
