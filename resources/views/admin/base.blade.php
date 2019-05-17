@@ -38,16 +38,16 @@
         var laydate = layui.laydate;
 
         //错误提示
-        @if(count($errors)>0)
+        @if(count($errors) > 0)
             @foreach($errors->all() as $error)
-                layer.msg("{{$error}}",{icon:5});
+                layer.msg("{{$error}}", {icon: 5});
                 @break
             @endforeach
         @endif
 
         //信息提示
         @if(session('status'))
-            layer.msg("{{session('status')}}",{icon:6});
+            layer.msg("{{session('status')}}", {icon: 6});
         @endif
 
         //监听消息推送

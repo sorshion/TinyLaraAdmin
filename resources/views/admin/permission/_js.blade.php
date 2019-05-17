@@ -9,23 +9,22 @@
     .site-doc-icon li .doc-icon-code xmp{margin:0}
     .site-doc-icon li .doc-icon-fontclass{height: 40px; line-height: 20px; padding: 0 5px; font-size: 13px; color: #333; }
     .site-doc-icon li:hover{background-color: #f2f2f2; color: #000;}
-
 </style>
 <script>
-    //选择图标
+    // 选择图标
     function chioceIcon(obj) {
         var icon_id = $(obj).data('id');
         $("input[name='icon_id']").val(icon_id);
-        $("#icon_box").html('<i class="layui-icon '+$(obj).data('class')+'"></i> '+$(obj).data('name'));
+        $("#icon_box").html('<i class="layui-icon ' + $(obj).data('class') + '"></i> ' + $(obj).data('name'));
         layer.closeAll();
     }
 
-    //弹出图标
+    // 弹出图标
     function showIconsBox() {
         var index = layer.load();
-        $.get("{{route('admin.icons')}}",function (res) {
+        $.get("{{route('admin.icons')}}", function (res) {
             layer.close(index);
-            if (res.code==0 && res.data.length>0){
+            if (res.code == 0 && res.data.length > 0) {
                 var html = '<ul class="site-doc-icon">';
                 $.each(res.data,function (index,item) {
                     html += '<li onclick="chioceIcon(this)" data-id="'+item.id+'" data-class="'+item.class+'" data-name="'+item.name+'" >';

@@ -7,7 +7,7 @@
 | 后台公共路由部分
 |
 */
-Route::namespace('Admin')->prefix('admin')->group(function () {
+Route::namespace('Admin')->prefix('admin')->group(function() {
     // 登录、注销
     Route::get('login', 'LoginController@showLoginForm')->name('admin.loginForm');
     Route::post('login', 'LoginController@login')->name('admin.login');
@@ -23,7 +23,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 | 后台需要授权的路由 admins
 |
 */
-Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function () {
+Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function() {
     // 后台布局
     Route::get('/', 'IndexController@layout')->name('admin.layout');
     // 后台首页
@@ -33,12 +33,12 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function (
 });
 
 // 系统管理
-Route::namespace('Admin')->prefix('admin')->middleware(['auth', 'permission:system.manage'])->group(function () {
+Route::namespace('Admin')->prefix('admin')->middleware(['auth', 'permission:system.manage'])->group(function() {
     // 数据表格接口
     Route::get('data', 'IndexController@data')->name('admin.data')->middleware('permission:system.role|system.user|system.permission');
 
     // 用户管理
-    Route::prefix('user')->middleware(['permission:system.user'])->group(function () {
+    Route::prefix('user')->middleware(['permission:system.user'])->group(function() {
         Route::get('index', 'UserController@index')->name('admin.user');
         // 添加
         Route::get('create', 'UserController@create')->name('admin.user.create')->middleware('permission:system.user.create');
@@ -57,7 +57,7 @@ Route::namespace('Admin')->prefix('admin')->middleware(['auth', 'permission:syst
     });
 
     // 角色管理
-    Route::prefix('role')->middleware(['permission:system.role'])->group(function () {
+    Route::prefix('role')->middleware(['permission:system.role'])->group(function() {
         Route::get('index', 'RoleController@index')->name('admin.role');
         // 添加
         Route::get('create', 'RoleController@create')->name('admin.role.create')->middleware('permission:system.role.create');
@@ -73,7 +73,7 @@ Route::namespace('Admin')->prefix('admin')->middleware(['auth', 'permission:syst
     });
 
     // 权限管理
-    Route::prefix('permission')->middleware(['permission:system.permission'])->group(function () {
+    Route::prefix('permission')->middleware(['permission:system.permission'])->group(function() {
         Route::get('index', 'PermissionController@index')->name('admin.permission');
         // 添加
         Route::get('create', 'PermissionController@create')->name('admin.permission.create')->middleware('permission:system.permission.create');
@@ -86,7 +86,7 @@ Route::namespace('Admin')->prefix('admin')->middleware(['auth', 'permission:syst
     });
 
     // 操作日志
-    Route::prefix('log')->middleware(['permission:system.log'])->group(function () {
+    Route::prefix('log')->middleware(['permission:system.log'])->group(function() {
         Route::get('index', 'LogController@index')->name('admin.log');
         // 数据表格接口
         Route::get('data', 'LogController@data')->name('admin.log.data')->middleware('permission:system.log|system.log');

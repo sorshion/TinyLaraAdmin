@@ -9,7 +9,7 @@
             <h2>用户【{{$user->name}}】分配角色</h2>
         </div>
         <div class="layui-card-body">
-            <form class="layui-form" action="{{route('admin.user.assignRole',['user'=>$user])}}" method="post">
+            <form class="layui-form" action="{{route('admin.user.assignRole',['user' => $user])}}" method="post">
                 {{csrf_field()}}
                 {{method_field('put')}}
                 <div class="layui-form-item">
@@ -32,5 +32,3 @@
         </div>
     </div>
 @endsection
-
-

@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,21 +36,21 @@
 <script src="/static/admin/layuiadmin/layui/layui.js"></script>
 <script>
     layui.config({
-        base: '/static/admin/layuiadmin/' //静态资源所在路径
-    }).use(['layer'],function () {
+        base: '/static/admin/layuiadmin/' // 静态资源所在路径
+    }).use(['layer'], function () {
         var layer = layui.layer;
 
-        //表单提示信息
+        // 表单提示信息
         @if(count($errors)>0)
             @foreach($errors->all() as $error)
-                layer.msg("{{$error}}",{icon:5});
+                layer.msg("{{$error}}", {icon:5});
                 @break
             @endforeach
         @endif
 
-        //正确提示
+        // 正确提示
         @if(session('success'))
-        layer.msg("{{session('success')}}",{icon:6});
+            layer.msg("{{session('success')}}", {icon:6});
         @endif
     })
     if (window.top.location.href != location.href) {

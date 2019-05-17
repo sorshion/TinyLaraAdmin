@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="layui-card">
-
         <div class="layui-card-header layuiadmin-card-header-auto">
             <div class="logSearch">
                 <span>操作用户</span>
@@ -25,7 +24,6 @@
                 <button class="layui-btn layui-btn-warm export-btn">下载(有数据中json字串不要使用)</button>
             </div>
         </div>
-
         <div class="layui-card-body">
             <table id="dataTable" lay-filter="dataTable"></table>
             <script type="text/html" id="options">
@@ -52,11 +50,11 @@
                 elem: '#dataTable'
                 ,id: 'dataTable'
                 ,toolbar: 'default'
-                ,totalRow: true //开启合计行
+                ,totalRow: true // 开启合计行
                 ,defaultToolbar: ['filter', 'print']
-                ,url: "{{ route('admin.log.data') }}" //数据接口
-                ,page: true //开启分页
-                ,cols: [[ //表头
+                ,url: "{{ route('admin.log.data') }}" // 数据接口
+                ,page: true // 开启分页
+                ,cols: [[ // 表头
                     {checkbox: true, fixed: true}
                     ,{field: 'id', title: 'ID', sort: true, width:80}
                     ,{field: 'user_name', title: '用户名'}
@@ -66,7 +64,7 @@
                     ,{field: 'operate_name', title: '操作'}
                     ,{field: 'input', title: '操作信息'}
                     ,{field: 'created_at', title: '创建时间'}
-                    ,{fixed: 'right', width: 320, align:'center', toolbar: '#options'}
+                    ,{fixed: 'right', width: 320, align:'center', title: '操作',toolbar: '#options'}
                 ]]
             });
 

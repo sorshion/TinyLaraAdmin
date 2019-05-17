@@ -154,7 +154,7 @@ class UserTableSeeder extends Seeder
         $roles = [
             ['name' => 'admin', 'display_name' => '管理员'],
         ];
-        foreach ($roles as $role) {
+        foreach($roles as $role) {
             Role::create($role);
         }
     }

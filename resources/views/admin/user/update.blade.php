@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="layui-elem-quote">更新用户</div>
-    <form class="layui-form" action="{{route('user.update',['role'=>$user])}}" method="post">
+    <form class="layui-form" action="{{route('user.update',['role' => $user])}}" method="post">
         {{csrf_field()}}
         {{method_field('put')}}
         <div class="layui-form-item">
@@ -50,5 +50,3 @@
         </div>
     </form>
 @endsection
-
-
