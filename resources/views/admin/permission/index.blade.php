@@ -89,7 +89,7 @@
                     dataTable.reload({
                         where: {
                             model: "permission",
-                            parent_id:data.
+                            parent_id: data.id
                         },
                         page: {
                             curr: 1

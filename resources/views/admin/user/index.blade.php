@@ -72,7 +72,7 @@
                                 obj.del(); // 删除对应行（tr）的DOM结构
                             }
                             layer.close(index);
-                            layer.msg(result.msg, {icon: 6})；
+                            layer.msg(result.msg, {icon: 6});
                         });
                     });
                 } else if(layEvent === 'edit') {
