@@ -30,6 +30,9 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function()
     Route::get('/index', 'IndexController@index')->name('admin.index');
     // 图标
     Route::get('icons', 'IndexController@icons')->name('admin.icons');
+    // 个人信息
+    Route::get('user/{id}/personalEdit', 'UserController@personalEdit')->name('admin.user.personalEdit');
+    Route::put('user/{id}/personalUpdate', 'UserController@personalUpdate')->name('admin.user.personalUpdate');
 });
 
 // 系统管理

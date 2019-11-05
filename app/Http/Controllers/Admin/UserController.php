@@ -97,6 +97,42 @@ class UserController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function personalEdit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.user.personalInfo', compact('user'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function personalUpdate(UserUpdateRequest $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $data = $request->except('password');
+        if ($request->get('password')) {
+            $data['password'] = bcrypt($request->get('password'));
+        }
+        if ($user->update($data)) {
+            if ($request->get('password') && Auth::user()->id == $id) {
+                return redirect()->to(route('admin.logout'));
+            }
+            return redirect()->to(route('admin.index'))->with(['status' => '更新用户成功']);
+        }
+        return redirect()->to(route('admin.index'))->withErrors('系统错误');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int $id

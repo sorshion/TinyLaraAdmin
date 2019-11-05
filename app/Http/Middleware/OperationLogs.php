@@ -31,13 +31,16 @@ class OperationLogs
 
         if ('GET' != $request->method()) {
             $router_as = $request->route()->action['as'];
-            if (empty($router_as) || count(explode(".", $router_as)) != 3) {
+            if (empty($router_as)) {
                 return $next($request);
             }
             $permisson = new Permission();
             $attributesArr = $permisson->getAllCacheAttributes();
             $allName       = $this->getAllName($attributesArr, $router_as);
             $operate_name  = $allName['operateName'];
+            if (empty($operate_name)) {
+                return $next($request);
+            }
             $sub_menu_name = $allName['subMenuName'];
             $menu_name     = $allName['menuName'];
 

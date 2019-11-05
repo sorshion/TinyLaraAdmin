@@ -54,10 +54,8 @@
                         <cite>{{Auth::user()->name}}</cite>
                     </a>
                     <dl class="layui-nav-child">
-                        @can('system.user.edit')
-                        <dd><a lay-href="admin/user/{{Auth::user()->id}}/edit">个人信息</a></dd>
+                        <dd><a lay-href="admin/user/{{Auth::user()->id}}/personalEdit">个人信息</a></dd>
                         <hr>
-                        @endcan
                         <dd style="text-align: center;"><a href="{{route('admin.logout')}}">退出</a></dd>
                     </dl>
                 </li>
