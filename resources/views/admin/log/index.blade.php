@@ -3,7 +3,7 @@
 @section('content')
     <div class="layui-card">
         <div class="layui-card-header layuiadmin-card-header-auto">
-            <div class="logSearch">
+            <div class="logSearch layui-form">
                 <span>操作用户</span>
                 <div class="layui-inline">
                     <input class="layui-input" name="user_name" autocomplete="off" placeholder="操作用户">
