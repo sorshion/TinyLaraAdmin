@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->uuid('uuid');
+            $table->integer('status')->default(0)->comment('0:显示 1：屏蔽');
             $table->timestamps();
         });
     }

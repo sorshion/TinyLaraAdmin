@@ -55,6 +55,7 @@
                     ,{field: 'name', title: '用户名'}
                     ,{field: 'email', title: '邮箱'}
                     ,{field: 'phone', title: '电话'}
+                    ,{field: 'status', title: '状态'}
                     ,{field: 'created_at', title: '创建时间'}
                     ,{field: 'updated_at', title: '更新时间'}
                     ,{fixed: 'right', width: 320, align:'center', title: '操作', toolbar: '#options'}

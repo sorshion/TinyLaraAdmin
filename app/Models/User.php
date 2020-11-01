@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username','name', 'email', 'password', 'phone', 'uuid'
+        'username','name', 'email', 'password', 'phone', 'uuid', 'status',
     ];
 
     /**
@@ -29,4 +29,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected function getStatusAttribute($value)
+    {
+        $valueHash = [
+            0 => '开启',
+            1 => '禁用',
+        ];
+
+        return $valueHash[$value];
+    }
 }

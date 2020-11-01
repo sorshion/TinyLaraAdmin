@@ -42,6 +42,14 @@
 </div>
 
 <div class="layui-form-item">
+    <label for="" class="layui-form-label">用户状态</label>
+    <div class="layui-input-inline">
+        <input type="radio" name="status" value="0" title="启用" {{ empty($user) || $user->getOriginal('status') == 0 ? 'checked': ''}}>
+        <input type="radio" name="status" value="1" title="禁用" {{ !empty($user) && $user->getOriginal('status') == 1 ? 'checked': ''}}>
+    </div>
+</div>
+
+<div class="layui-form-item">
     <div class="layui-input-block">
         <button type="submit" class="layui-btn" lay-submit="" lay-filter="formDemo">确 认</button>
         <a  class="layui-btn" href="{{route('admin.user')}}" >返 回</a>
